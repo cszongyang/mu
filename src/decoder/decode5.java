@@ -20,8 +20,12 @@ public class decode5 {
 	static JLabel lbIm2;
 	static BufferedImage img;
 	final static   double pi=Math.PI;
-	 static  int q1=50;
-	 static int q2=10000;
+	 static  int q1=1000;
+	 static int q2=10;
+	 static BufferedImage original;
+	 
+     public static List<BufferedImage> outputVideo=new ArrayList<BufferedImage>();
+     public static List<BufferedImage> originalVideo=new ArrayList<BufferedImage>();
 	 
 	 static double[][] blockXU=new double[8][8];
 	 static double[][] blockYV=new double[8][8];
@@ -133,7 +137,7 @@ public class decode5 {
 //		String filename= "output.cmp";		
         String line="";
         
-        int frameRate=15;
+        int frameRate = 30;
       
         //预先计算idct公式里重复的部分
         for(int x=0;x<8;x++){
@@ -147,8 +151,11 @@ public class decode5 {
         	}
         }
         
-        List<BufferedImage> outputVideo=new ArrayList<BufferedImage>();
-        img = new BufferedImage(960, 540, BufferedImage.TYPE_INT_RGB);	
+        outputVideo=new ArrayList<BufferedImage>();
+        originalVideo=new ArrayList<BufferedImage>();
+        
+        img = new BufferedImage(960, 540, BufferedImage.TYPE_INT_RGB);
+        original = new BufferedImage(960, 540, BufferedImage.TYPE_INT_RGB);	
         //一帧8160行
 	      try
 	       {
@@ -160,12 +167,14 @@ public class decode5 {
                {               	              	               
                       idct(line,blockCount);
                 	  blockCount++;
-                	  if(blockCount==8160){
-                		  long endTime=System.currentTimeMillis(); //获取结束时间  
+                	  if(blockCount == 8160){
+                		  long endTime = System.currentTimeMillis(); //获取结束时间  
                           System.out.println("程序运行时间： "+(endTime-startTime)+"ms");   
                 		  outputVideo.add(img);
+                		  originalVideo.add(original);
                 		  blockCount=0;
                 		  img = new BufferedImage(960, 540, BufferedImage.TYPE_INT_RGB);
+                		  original = new BufferedImage(960, 540, BufferedImage.TYPE_INT_RGB);
                 			 startTime=System.currentTimeMillis();   //获取开始时间  
                 	  }else{
                 		  
@@ -181,51 +190,50 @@ public class decode5 {
 	               e.printStackTrace();
 	        }
 	      
-	      return outputVideo;
 	      
-//	 
-//		    JFrame frame = new JFrame();
-//		    GridBagLayout gLayout = new GridBagLayout();
-//		    frame.getContentPane().setLayout(gLayout);
-//		    
-//		    JLabel lbText1 = new JLabel("Video height: ");
-//		    lbText1.setHorizontalAlignment(SwingConstants.CENTER);
-//			
-//		    lbIm1 = new JLabel(new ImageIcon(img));
-//			GridBagConstraints c = new GridBagConstraints();
-//			c.fill = GridBagConstraints.HORIZONTAL;
-//			c.anchor = GridBagConstraints.CENTER;
-//			c.weightx = 0.5;
-//			c.gridx = 0;
-//			c.gridy = 0;
-//			frame.getContentPane().add(lbText1, c);		
-//			c.fill = GridBagConstraints.HORIZONTAL;
-//			c.gridx = 0;
-//			c.gridy = 1;
-//			frame.getContentPane().add(lbIm1, c);
-//			
-//			frame.pack();
-//			frame.setVisible(true);
-//		
-//			for(int i=1; i < outputVideo.size(); i++) {
-//		    	lbIm1.setIcon(new ImageIcon(outputVideo.get(i)));
-//		    	try {
-//		    		Thread.sleep(1000/frameRate);
-//		    	} catch(InterruptedException e) {
-//		    		e.printStackTrace();
-//		    	}
-//		    }
-//			while(true){
-//			 for(int i=0; i < outputVideo.size(); i++) {
-//			    	lbIm1.setIcon(new ImageIcon(outputVideo.get(i)));
-//			    	try {
-//			    		Thread.sleep(1000/frameRate);
-//			    	} catch(InterruptedException e) {
-//			    		e.printStackTrace();
-//			    	}
-//			    }
-//			}
-	      
+	 
+		    JFrame frame = new JFrame();
+		    GridBagLayout gLayout = new GridBagLayout();
+		    frame.getContentPane().setLayout(gLayout);
+		    
+		    JLabel lbText1 = new JLabel("Video height: ");
+		    lbText1.setHorizontalAlignment(SwingConstants.CENTER);
+			
+		    lbIm1 = new JLabel(new ImageIcon(img));
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.CENTER;
+			c.weightx = 0.5;
+			c.gridx = 0;
+			c.gridy = 0;
+			frame.getContentPane().add(lbText1, c);		
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 0;
+			c.gridy = 1;
+			frame.getContentPane().add(lbIm1, c);
+			
+			frame.pack();
+			frame.setVisible(true);
+		
+			for(int i=1; i < outputVideo.size(); i++) {
+		    	lbIm1.setIcon(new ImageIcon(outputVideo.get(i)));
+		    	try {
+		    		Thread.sleep(1000/frameRate);
+		    	} catch(InterruptedException e) {
+		    		e.printStackTrace();
+		    	}
+		    }
+			while(true){
+			 for(int i=0; i < outputVideo.size(); i++) {
+			    	lbIm1.setIcon(new ImageIcon(outputVideo.get(i)));
+			    	try {
+			    		Thread.sleep(1000/frameRate);
+			    	} catch(InterruptedException e) {
+			    		e.printStackTrace();
+			    	}
+			    }
+			}
+			
 		    
 	}
 	

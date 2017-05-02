@@ -354,7 +354,7 @@ public class AVPlayer extends JFrame implements ActionListener{
 					repaint();	
 					
 					try {
-						Thread.sleep(100);
+						Thread.sleep(33);
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}

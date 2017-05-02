@@ -39,7 +39,8 @@ public class ReadImage {
 	
 	public void loadFromDecoder(String fileName){
 
-		video = decode5.getVideo(fileName);
+		decode5.getVideo(fileName);
+		video = decode5.outputVideo;
 	}
 
 	/**
