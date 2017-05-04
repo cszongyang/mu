@@ -40,6 +40,7 @@ public class ReadImage {
 	public void loadFromDecoder(String fileName){
 
 		decode5.getVideo(fileName);
+		System.out.println("video size1:"+decode5.outputVideo.size());
 		video = decode5.outputVideo;
 	}
 

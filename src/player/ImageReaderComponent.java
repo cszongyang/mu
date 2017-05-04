@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 public class ImageReaderComponent extends JComponent {
 

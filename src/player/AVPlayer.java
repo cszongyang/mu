@@ -56,15 +56,15 @@ public class AVPlayer extends JFrame implements ActionListener{
 	
 	private JLabel labelFileNameImage = new JLabel("Image File:");
 	//private JLabel labelFileNameAudio = new JLabel("Audio File:");
-	private JLabel labelTimeCounter = new JLabel("00:00:00");
-	private JLabel labelDuration = new JLabel("00:00:00");
+//	private JLabel labelTimeCounter = new JLabel("00:00:00");
+//	private JLabel labelDuration = new JLabel("00:00:00");
 	
 	private JButton buttonOpenImage = new JButton("Open Image");
 //	private JButton buttonOpenAudio = new JButton("Open Audio");
 	private JButton buttonPlay = new JButton("Play");
 	private JButton buttonPause = new JButton("Pause");
 	
-	private JSlider sliderTime = new JSlider();
+	
 	
 	// Icons used for buttons
 	private ImageIcon iconOpen = new ImageIcon(getClass().getResource("/images/Open.png"));
@@ -102,12 +102,9 @@ public class AVPlayer extends JFrame implements ActionListener{
 		buttonPause.setIcon(iconPause);
 		//buttonPause.setEnabled(false);
 		
-		labelTimeCounter.setFont(new Font("Sans", Font.BOLD, 12));
-		labelDuration.setFont(new Font("Sans", Font.BOLD, 12));
-		
-		sliderTime.setPreferredSize(new Dimension(500, 20));
-		sliderTime.setEnabled(false);
-		sliderTime.setValue(0);
+		//labelTimeCounter.setFont(new Font("Sans", Font.BOLD, 12));
+		//labelDuration.setFont(new Font("Sans", Font.BOLD, 12));
+
 
 		constraints.gridx = 0;
 		constraints.gridy = 0;
@@ -120,13 +117,14 @@ public class AVPlayer extends JFrame implements ActionListener{
 		constraints.anchor = GridBagConstraints.CENTER;
 		constraints.gridy = 2;
 		constraints.gridwidth = 1;
-		add(labelTimeCounter, constraints);
+		//add(labelTimeCounter, constraints);
 		
 		constraints.gridx = 1;
-		add(sliderTime, constraints);
+		
+		
 		
 		constraints.gridx = 2;
-		add(labelDuration, constraints);
+		//add(labelDuration, constraints);
 		
 		JPanel panelButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
 		panelButtons.add(buttonOpenImage);
@@ -140,7 +138,7 @@ public class AVPlayer extends JFrame implements ActionListener{
 		add(panelButtons, constraints);
 		
 		
-		component.setPreferredSize(new Dimension(1000, 600));
+		component.setPreferredSize(new Dimension(width, height));
 		constraints.gridheight = 3;
 		constraints.gridwidth = 12;
 		constraints.insets = new Insets(5, 5, 5, 5);
@@ -269,8 +267,8 @@ public class AVPlayer extends JFrame implements ActionListener{
 		isPause = false;
 		buttonPause.setText("Pause");
 		buttonPause.setEnabled(false);
-		timer.reset();
-		timer.interrupt();	
+//		timer.reset();
+//		timer.interrupt();	
 		imageReader.resetInputStream(imageFileName);
 		imageThread.interrupt();
 				
@@ -279,7 +277,7 @@ public class AVPlayer extends JFrame implements ActionListener{
 	private void pausePlaying() {
 		buttonPause.setText("Resume");
 		isPause = true;
-		timer.pauseTimer();
+//		timer.pauseTimer();
 		
 		//imageThread.interrupt();
 
@@ -289,7 +287,7 @@ public class AVPlayer extends JFrame implements ActionListener{
 	private void resumePlaying() {
 		buttonPause.setText("Pause");
 		isPause = false;
-		timer.resumeTimer();
+//		timer.resumeTimer();
 		
 		
 		synchronized (pauseLock) {
@@ -300,8 +298,8 @@ public class AVPlayer extends JFrame implements ActionListener{
 	}
 	
 	private void resetControls() {
-		timer.reset();
-		timer.interrupt();
+//		timer.reset();
+//		timer.interrupt();
 
 		buttonPlay.setText("Play");
 		buttonPlay.setIcon(iconPlay);
@@ -316,8 +314,8 @@ public class AVPlayer extends JFrame implements ActionListener{
 	 * Start playing sound and images in sync
 	 */
 	private void playBack() {
-		timer = new PlayingTimer(labelTimeCounter, sliderTime);
-		timer.start();
+		//timer = new PlayingTimer(labelTimeCounter, sliderTime);
+		//timer.start();
 		isPlaying = true;
 		
 		System.out.println("--------in playback------");
@@ -334,6 +332,7 @@ public class AVPlayer extends JFrame implements ActionListener{
 		
 	
 		List<BufferedImage> video = imageReader.getVideo();
+		System.out.println("video size:"+video.size());
 		//List<BufferedImage> video = decode5.getVideo();
 		imageThread = new Thread(new Runnable() {
 			public void run() {						
@@ -346,7 +345,11 @@ public class AVPlayer extends JFrame implements ActionListener{
 				
 			
 
-				for(int i = 0; i < video.size(); i++) {
+				for(int i = 0; i <= video.size(); i++) {
+					if (i == video.size()) {
+						i = 0;
+						System.out.println("replay..");
+					}
 				
 					img = video.get(i);
 					//img = imageReader.readBytes();
@@ -354,7 +357,7 @@ public class AVPlayer extends JFrame implements ActionListener{
 					repaint();	
 					
 					try {
-						Thread.sleep(33);
+						Thread.sleep((long) (1000/fps));
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -373,7 +376,6 @@ public class AVPlayer extends JFrame implements ActionListener{
 					System.gc();
 				}
 				
-				
 			}
 		});
 
@@ -382,8 +384,11 @@ public class AVPlayer extends JFrame implements ActionListener{
 		
 	}
 	
+	
 	//Driver for loading the player
 	public static void main(String[] args) {
+		
+		//System.setProperty("sun.java2d.opengl", "true");
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception ex) {

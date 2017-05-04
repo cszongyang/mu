@@ -78,7 +78,6 @@ public class decode5 {
 //                     
 //               }
 //              
-//               
 //                in.close();
 //	        } catch (IOException e)
 //	         {
@@ -132,7 +131,7 @@ public class decode5 {
 		    
 //	}
 	
-	public static List<BufferedImage> getVideo(String filename) {
+	public static void getVideo(String filename) {
 		
 //		String filename= "output.cmp";		
         String line="";
@@ -169,7 +168,8 @@ public class decode5 {
                 	  blockCount++;
                 	  if(blockCount == 8160){
                 		  long endTime = System.currentTimeMillis(); //获取结束时间  
-                          System.out.println("程序运行时间： "+(endTime-startTime)+"ms");   
+                          System.out.println("程序运行时间： "+(endTime-startTime)+"ms");
+
                 		  outputVideo.add(img);
                 		  originalVideo.add(original);
                 		  blockCount=0;
@@ -190,49 +190,49 @@ public class decode5 {
 	               e.printStackTrace();
 	        }
 	      
-	      
-	 
-		    JFrame frame = new JFrame();
-		    GridBagLayout gLayout = new GridBagLayout();
-		    frame.getContentPane().setLayout(gLayout);
-		    
-		    JLabel lbText1 = new JLabel("Video height: ");
-		    lbText1.setHorizontalAlignment(SwingConstants.CENTER);
-			
-		    lbIm1 = new JLabel(new ImageIcon(img));
-			GridBagConstraints c = new GridBagConstraints();
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.anchor = GridBagConstraints.CENTER;
-			c.weightx = 0.5;
-			c.gridx = 0;
-			c.gridy = 0;
-			frame.getContentPane().add(lbText1, c);		
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.gridx = 0;
-			c.gridy = 1;
-			frame.getContentPane().add(lbIm1, c);
-			
-			frame.pack();
-			frame.setVisible(true);
-		
-			for(int i=1; i < outputVideo.size(); i++) {
-		    	lbIm1.setIcon(new ImageIcon(outputVideo.get(i)));
-		    	try {
-		    		Thread.sleep(1000/frameRate);
-		    	} catch(InterruptedException e) {
-		    		e.printStackTrace();
-		    	}
-		    }
-			while(true){
-			 for(int i=0; i < outputVideo.size(); i++) {
-			    	lbIm1.setIcon(new ImageIcon(outputVideo.get(i)));
-			    	try {
-			    		Thread.sleep(1000/frameRate);
-			    	} catch(InterruptedException e) {
-			    		e.printStackTrace();
-			    	}
-			    }
-			}
+//	      
+//	 
+//		    JFrame frame = new JFrame();
+//		    GridBagLayout gLayout = new GridBagLayout();
+//		    frame.getContentPane().setLayout(gLayout);
+//		    
+//		    JLabel lbText1 = new JLabel("Video height: ");
+//		    lbText1.setHorizontalAlignment(SwingConstants.CENTER);
+//			
+//		    lbIm1 = new JLabel(new ImageIcon(img));
+//			GridBagConstraints c = new GridBagConstraints();
+//			c.fill = GridBagConstraints.HORIZONTAL;
+//			c.anchor = GridBagConstraints.CENTER;
+//			c.weightx = 0.5;
+//			c.gridx = 0;
+//			c.gridy = 0;
+//			frame.getContentPane().add(lbText1, c);		
+//			c.fill = GridBagConstraints.HORIZONTAL;
+//			c.gridx = 0;
+//			c.gridy = 1;
+//			frame.getContentPane().add(lbIm1, c);
+//			
+//			frame.pack();
+//			frame.setVisible(true);
+//		
+//			for(int i=1; i < outputVideo.size(); i++) {
+//		    	lbIm1.setIcon(new ImageIcon(outputVideo.get(i)));
+//		    	try {
+//		    		Thread.sleep(1000/frameRate);
+//		    	} catch(InterruptedException e) {
+//		    		e.printStackTrace();
+//		    	}
+//		    }
+//			while(true){
+//			 for(int i=0; i < outputVideo.size(); i++) {
+//			    	lbIm1.setIcon(new ImageIcon(outputVideo.get(i)));
+//			    	try {
+//			    		Thread.sleep(1000/frameRate);
+//			    	} catch(InterruptedException e) {
+//			    		e.printStackTrace();
+//			    	}
+//			    }
+//			}
 			
 		    
 	}
